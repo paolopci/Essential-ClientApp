@@ -1,25 +1,37 @@
-import { Product } from "./product.model";
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
+import { Product } from "./product.model";
+import { Filter } from "./configClasses.repository";
+
+
+const productUrl = "/api/products";
 
 
 @Injectable()
 export class Repository {
-  productData: Product;
+  product: Product;
+  products: Product[];
+  filter: Filter=new Filter();
 
   constructor(private http: HttpClient) {
-    this.getProduct(1);
+    this.filter.category = "Garden";
+    this.filter.related = true;
+    this.getProducts();
   }
 
   getProduct(id: number) {
-    this.http.get<Product>("/api/products/" + id).subscribe(p => {
-      this.productData = p;
-      console.log("Product Data Received");
-    });
+    this.http.get<Product>(`${productUrl}/${id}`).subscribe(p => { this.product = p; });
   }
 
-  get product(): Product {
-    console.log("Product Data Requested");
-    return this.productData;
+  getProducts() {
+    let url = `${productUrl}?related=${this.filter.related}`;
+    if (this.filter.category) {
+      url += `&category=${this.filter.category}`;
+    }
+    if (this.filter.search) {
+      url += `&search=${this.filter.search}`;
+    }
+
+    this.http.get<Product[]>(url).subscribe(prods => this.products = prods);
   }
 }
