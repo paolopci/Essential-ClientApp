@@ -46,4 +46,12 @@ export class AppComponent {
     let supp = new Supplier(3, "Modified Supplier", "Pesaro ...", "IT");
     this.repo.replaceSupplier(supp);
   }
+
+  deleteProduct() {
+    this.repo.deleteProduct(1);
+  }
+
+  deleteSupplier() {
+    this.repo.deleteSupplier(2);
+  }
 }

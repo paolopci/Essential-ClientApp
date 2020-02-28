@@ -98,4 +98,17 @@ export class Repository {
     };
     this.http.put(`${suppliersUrl}/${supp.supplierId}`, data).subscribe(() => this.getProducts());
   }
+
+  // Delete Product, Supplier
+  deleteProduct(id: number) {
+    this.http.delete(`${productsUrl}/${id}`).subscribe(() => this.getProducts());
+  }
+
+  deleteSupplier(id: number) {
+    this.http.delete(`${suppliersUrl}/${id}`).subscribe(() => {
+      this.getProducts();
+      this.getSuppliers();
+    });
+  }
+  
 }
