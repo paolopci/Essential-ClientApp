@@ -17,7 +17,6 @@ export class Repository {
   filter: Filter=new Filter();
 
   constructor(private http: HttpClient) {
-    // this.filter.category = "Garden";
     this.filter.related = true;
     this.getProducts();
   }
