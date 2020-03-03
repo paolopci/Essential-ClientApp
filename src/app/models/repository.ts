@@ -2,11 +2,16 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Product } from "./product.model";
 import { Supplier } from "./supplier.model"
-import { Filter } from "./configClasses.repository";
+import { Filter, Pagination } from "./configClasses.repository";
 
 
 const productsUrl = "/api/products";
 const suppliersUrl = "/api/suppliers";
+
+type productsMetadata = {
+  data: Product[],
+  categories: string[];
+}
 
 
 @Injectable()
@@ -14,11 +19,12 @@ export class Repository {
   product: Product;
   products: Product[];
   suppliers: Supplier[]=[];
-  filter: Filter=new Filter();
+  filter: Filter = new Filter();
+  categories: string[] = [];
+  paginationObject = new Pagination();
 
   constructor(private http: HttpClient) {
     this.filter.related = true;
-    this.getProducts();
   }
 
   getProduct(id: number) {
@@ -34,7 +40,13 @@ export class Repository {
       url += `&search=${this.filter.search}`;
     }
 
-    this.http.get<Product[]>(url).subscribe(prods => this.products = prods);
+    url += "&metadata=true";
+
+    this.http.get<productsMetadata>(url).subscribe(md => {
+      this.products = md.data;
+      this.categories = md.categories;
+    });
+
   }
 
   getSuppliers() {
@@ -109,5 +121,5 @@ export class Repository {
       this.getSuppliers();
     });
   }
-  
+
 }

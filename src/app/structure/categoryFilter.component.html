@@ -1,6 +1,7 @@
-<div>
-<div class="btn btn-primary m-1" (click)="setCategory('soccer')">Soccer</div>
-<div class="btn btn-primary m-1" (click)="setCategory(chessCategory)">Chess</div>
-<div class="btn btn-primary m-1" (click)="setCategory('Water'+'Sports')">WaterSports</div>
-<div class="btn btn-primary m-1" (click)="setCategory(null)">All</div>
+<div class="m-1">
+  <button class="btn btn-outline-primary btn-block" [class.active]="service.currentCategory==''"
+          (click)="service.currentCategory=''"> All Categories</button>
+  <button *nFor="let category of service.categories" class="btn btn-outline-primary btn-block"
+          [class.active]="service.currentCategory.toLowerCase()==category.toLowerCase()"
+          (click)="service.currentCategory=category">{{category}}</button>
 </div>

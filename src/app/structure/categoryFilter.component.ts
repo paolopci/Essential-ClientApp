@@ -1,17 +1,13 @@
 import { Component } from '@angular/core';
-import { Repository } from "../models/repository";
+import { NavigationService } from "../models/navigation.service";
 
 @Component({
-  selector: "category-filter",
+  selector: "store-categoryfilter",
   templateUrl: "categoryFilter.component.html"
 })
 export class CategoryFilterComponent {
-  public chessCategory = "chess";
 
-  constructor(private repo: Repository) { }
 
-  setCategory(category: string) {
-    this.repo.filter.category = category;
-    this.repo.getProducts();
-  }
+  constructor(public service: NavigationService) {}
+
 }
