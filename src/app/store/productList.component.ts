@@ -1,21 +1,28 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Repository } from "../models/repository";
 import { Product } from "../models/product.model";
 
 
-@Component({
-  selector: 'store-product-list',
-  templateUrl: 'productList.component.html'
-})
-export class ProductListComponent {
-  constructor(private repo: Repository) {}
 
-  
+
+
+@Component({
+  selector: 'ngbd-pagination',
+  templateUrl: 'productList.component.html',
+})
+
+export class ProductListComponent {
+
+  page = 1;// pagina iniziale
+  pageSize = 10; // elementi per pagina
+  maxSize=10; // indica il numero di pagine sequenziali tipo 1 .. 2,3,4,5,6,7,8,9,10,11 .. 200
+
+
+  constructor(private repo: Repository, private route: ActivatedRoute, private router: Router) {}
+
+
   get products(): Product[] {
-    if (this.repo.products != null && this.repo.products.length > 0) {
-      let pageIndex = (this.repo.paginationObject.currentPage - 1) * this.repo.paginationObject.productsPerPage;
-      return this.repo.products.slice(pageIndex,
-        pageIndex + this.repo.paginationObject.productsPerPage);
-    }
+    return this.repo.products;
   }
 }

@@ -1,5 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { NgxPaginationModule } from 'ngx-pagination';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+
 
 import { CartSummaryComponent } from "./cartSummary.component";
 import { CategoryFilterComponent } from "./categoryFilter.component";
@@ -17,8 +20,8 @@ import { ProductSelectionComponent } from "./productSelection.component";
     ProductSelectionComponent,
     RatingsComponent
   ],
-  imports: [BrowserModule],
-  exports:[ProductSelectionComponent]
+  imports: [BrowserModule, NgxPaginationModule,NgbModule],
+  exports: [ProductSelectionComponent]
 })
 export class StoreModule {
 }

@@ -1,21 +1,34 @@
 <div *ngIf="products?.length > 0; else nodata" class="">
-    <div *ngFor="let product of products" class="card m-1 p-1 bg-light">
-        <h4>
-            {{ product.name }}
-            
-            <span class="float-right badge badge-pill badge-primary">
-                {{ product.price  | currency:"USD":"symbol" }}
-            </span>
-        </h4>
-        <div class="card-text">
-            {{ product.description }}
-            <button class="float-right btn btn-sm btn-success">
-                Add to Cart
-            </button>
-        </div>
+  <div *ngFor="let product of products  | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize "
+        class="card m-1 p-1 bg-light">
+    <h4>
+      {{ product.name }}
+      <store-ratings [product]="product"></store-ratings>
+      <span class="float-right badge badge-pill badge-primary">
+        {{ product.price | currency:"EUR":"symbol" }}
+      </span>
+    </h4>
+    <div class="card-text">
+      {{ product.description }}
+      <button class="float-right btn btn-sm btn-success">
+        Add to Cart
+      </button>
     </div>
+  </div>
+  <ngb-pagination
+    [collectionSize]="products.length"
+    class="d-flex justify-content-center"
+    [(page)]="page"
+    [maxSize]="maxSize"
+    [boundaryLinks]="true"
+    [pageSize]="pageSize">
+    <ng-template ngbPaginationPrevious>Prev</ng-template>
+    <ng-template ngbPaginationNext>Next</ng-template>
+  </ngb-pagination>
+
 </div>
 
+
 <ng-template #nodata>
-    <h4 class="m-2">Waiting for data...</h4>
+  <h4 class="m-2">Waiting for data...</h4>
 </ng-template>
