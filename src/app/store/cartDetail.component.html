@@ -19,7 +19,7 @@
     </tr>
     <tr *ngFor="let sel of cart.selections">
       <td>
-        <input type="number" class="form-control-sm" style="width: 5em" [ngModel]="sel.quantity"/>
+        <input type="number" class="form-control-sm" style="width: 5em" [(ngModel)]="sel.quantity"/>
       </td>
       <td>{{sel.name}}</td>
       <td class="text-right">{{sel.price | currency:"EUR":"symbol":"2.2-2"}}</td>

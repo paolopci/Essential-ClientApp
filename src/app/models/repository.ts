@@ -3,10 +3,12 @@ import { HttpClient } from "@angular/common/http";
 import { Product } from "./product.model";
 import { Supplier } from "./supplier.model"
 import { Filter, Pagination } from "./configClasses.repository";
+import { Observable } from "rxjs";
 
 
 const productsUrl = "/api/products";
 const suppliersUrl = "/api/suppliers";
+const sessionUrl = "/api/session";
 
 type productsMetadata = {
   data: Product[],
@@ -120,6 +122,15 @@ export class Repository {
       this.getProducts();
       this.getSuppliers();
     });
+  }
+
+  // Chapter 9: Session Store
+  storeSessionData<T>(dataType: string, data: T) {
+    return this.http.post(`${sessionUrl}/${dataType}`, data).subscribe(response => {});
+  }
+
+  getSessionData<T>(dataType: string): Observable<T> {
+    return this.http.get<T>(`${sessionUrl}/${dataType}`);
   }
 
 }
