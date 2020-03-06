@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { Repository } from "../models/repository";
+//import { Repository } from "../models/repository";
+import { NavigationService } from '../models/navigation.service';
 
 
 @Component({
@@ -7,5 +8,5 @@ import { Repository } from "../models/repository";
   templateUrl:'categoryFilter.component.html'
 })
 export class CategoryFilterComponent {
-  constructor(private repo: Repository) {}
+  constructor(public service: NavigationService) {}
 }
