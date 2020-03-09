@@ -4,11 +4,14 @@ import { Product } from "./product.model";
 import { Supplier } from "./supplier.model"
 import { Filter, Pagination } from "./configClasses.repository";
 import { Observable } from "rxjs";
+// Chapter 9
+import { Order, OrderConfirmation } from "./order.model";
 
 
 const productsUrl = "/api/products";
 const suppliersUrl = "/api/suppliers";
 const sessionUrl = "/api/session";
+const ordersUrl = "/api/orders";
 
 type productsMetadata = {
   data: Product[],
@@ -24,6 +27,8 @@ export class Repository {
   filter: Filter = new Filter();
   categories: string[] = [];
   paginationObject = new Pagination();
+  // Chapter 9
+  orders: Order[] = [];
 
   constructor(private http: HttpClient) {
     this.filter.related = true;
@@ -131,6 +136,30 @@ export class Repository {
 
   getSessionData<T>(dataType: string): Observable<T> {
     return this.http.get<T>(`${sessionUrl}/${dataType}`);
+  }
+
+
+  // Chapter 9: Orders
+  getOrders() {
+    this.http.get<Order[]>(ordersUrl).subscribe(data => this.orders = data);
+  }
+
+  createOrder(order: Order) {
+    this.http.post<OrderConfirmation>(ordersUrl,
+      {
+        name: order.name,
+        address: order.address,
+        payment: order.payment,
+        products: order.products
+      }).subscribe(data => {
+      order.orderConfirmation = data;
+      order.cart.clear();
+      order.clear();
+    });
+  }
+
+  shipOrder(order: Order) {
+    this.http.post(`${ordersUrl}/${order.orderId}`, {}).subscribe(() => this.getOrders());
   }
 
 }

@@ -14,6 +14,12 @@ import { ProductSelectionComponent } from "./productSelection.component";
 import { CartDetailComponent } from "./cartDetail.component";
 import { FormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
+// Chapter 9: Checkout
+import { CheckDetailsComponent } from "./checkout/checkoutDetails.component";
+import { CheckoutPaymentComponent } from "./checkout/checkoutPayment.component";
+import { CheckoutSummaryComponent } from "./checkout/checkoutSummary.component";
+import { OrderConfirmationComponent } from "./checkout/orderConfirmation.component";
+
 
 @NgModule({
   declarations: [
@@ -23,7 +29,11 @@ import { RouterModule } from "@angular/router";
     ProductListComponent,
     ProductSelectionComponent,
     RatingsComponent,
-    CartDetailComponent
+    CartDetailComponent,
+    CheckDetailsComponent,
+    CheckoutPaymentComponent,
+    CheckoutSummaryComponent,
+    OrderConfirmationComponent
   ],
   imports: [
     BrowserModule,
