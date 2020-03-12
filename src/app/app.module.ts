@@ -11,6 +11,9 @@ import { StoreModule } from "./store/store.module"
 
 // my application
 import { ModelModule } from "./models/model.module";
+import { ExternalService } from "./external.service";
+import { HTTP_INTERCEPTORS } from "@angular/common/http";
+import { ErrorHandlerService } from "./errorHandler.service";
 
 @NgModule({
   declarations: [
@@ -23,7 +26,10 @@ import { ModelModule } from "./models/model.module";
     StoreModule,
     FormsModule
   ],
-  providers: [],
+  providers: [
+    ExternalService, ErrorHandlerService,
+    { provide: HTTP_INTERCEPTORS, useExisting: ErrorHandlerService, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

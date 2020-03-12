@@ -1,57 +1,26 @@
 import { Component } from '@angular/core';
-import { Repository } from "./models/repository";
-import { Product } from "./models/product.model";
-import { Supplier } from "./models/supplier.model";
+import { ErrorHandlerService } from "./errorHandler.service";
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+    private lastError: string[];
 
-  constructor(private repo: Repository) {}
+    constructor(errorService: ErrorHandlerService) {
+        errorService.errors.subscribe(error => {
+            this.lastError = error;
+        });
+    }
 
-  get product(): Product {
-    return this.repo.product;
-  }
+    get error(): string[] {
+        return this.lastError;
+    }
 
-  get products(): Product[] {
-    return this.repo.products;
-  }
-
-  createProduct() {
-    this.repo.createProduct(new Product(0,
-      "X-Ray Scuba Mask",
-      "Watersports",
-      "See what the fish are hiding",
-      49.99,
-      this.repo.products[0].supplier));
-  }
-
-  createProductAndSupplier() {
-    let s = new Supplier(0, "Rocket Shoe Corp", "Pesaro", "IT");
-    let p = new Product(0, "Rocket-Powered Shoes", "Running", "Set a new record", 100, s);
-    this.repo.createProductAndSupplier(p, s);
-  }
-
-  replaceProduct() {
-    let prod = this.repo.products[0];
-    prod.name = "Modified Product";
-    prod.category = "Modified Category";
-    this.repo.replaceProduct(prod);
-  }
-
-  replaceSupplier() {
-    let supp = new Supplier(3, "Modified Supplier", "Pesaro ...", "IT");
-    this.repo.replaceSupplier(supp);
-  }
-
-  deleteProduct() {
-    this.repo.deleteProduct(1);
-  }
-
-  deleteSupplier() {
-    this.repo.deleteSupplier(2);
-  }
+    clearError() {
+        this.lastError = null;
+    }
 }
+
